@@ -164,6 +164,71 @@ Transform:
   - {fileID: 1707916018}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &61762025
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2694679113662682161, guid: cae585ebafad88842ad9bc1f5d6e2c6e, type: 3}
+      propertyPath: m_Name
+      value: enemy (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5520147370785360587, guid: cae585ebafad88842ad9bc1f5d6e2c6e, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.8089128
+      objectReference: {fileID: 0}
+    - target: {fileID: 5520147370785360587, guid: cae585ebafad88842ad9bc1f5d6e2c6e, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5747674
+      objectReference: {fileID: 0}
+    - target: {fileID: 5520147370785360587, guid: cae585ebafad88842ad9bc1f5d6e2c6e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.0081
+      objectReference: {fileID: 0}
+    - target: {fileID: 5520147370785360587, guid: cae585ebafad88842ad9bc1f5d6e2c6e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 5520147370785360587, guid: cae585ebafad88842ad9bc1f5d6e2c6e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5520147370785360587, guid: cae585ebafad88842ad9bc1f5d6e2c6e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5520147370785360587, guid: cae585ebafad88842ad9bc1f5d6e2c6e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5520147370785360587, guid: cae585ebafad88842ad9bc1f5d6e2c6e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5520147370785360587, guid: cae585ebafad88842ad9bc1f5d6e2c6e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5520147370785360587, guid: cae585ebafad88842ad9bc1f5d6e2c6e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5520147370785360587, guid: cae585ebafad88842ad9bc1f5d6e2c6e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5520147370785360587, guid: cae585ebafad88842ad9bc1f5d6e2c6e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cae585ebafad88842ad9bc1f5d6e2c6e, type: 3}
 --- !u!1 &106566140
 GameObject:
   m_ObjectHideFlags: 0
@@ -28419,7 +28484,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 150
-      m_TileSpriteIndex: 20
+      m_TileSpriteIndex: 29
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -65130,8 +65195,8 @@ Tilemap:
     m_Data: {fileID: 21300224, guid: 261212b977f594d5dbc48631a5c1295c, type: 3}
   - m_RefCount: 3
     m_Data: {fileID: 21300222, guid: 261212b977f594d5dbc48631a5c1295c, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: 21300150, guid: 261212b977f594d5dbc48631a5c1295c, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 63
     m_Data: {fileID: 1302669368, guid: 7665cfe494cd4bf49955e5706a6349d8, type: 3}
   - m_RefCount: 0
@@ -65148,8 +65213,8 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 2
     m_Data: {fileID: 21300100, guid: 261212b977f594d5dbc48631a5c1295c, type: 3}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: 21300150, guid: 261212b977f594d5dbc48631a5c1295c, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 21300182, guid: 261212b977f594d5dbc48631a5c1295c, type: 3}
   - m_RefCount: 19
@@ -65959,3 +66024,4 @@ SceneRoots:
   - {fileID: 900770478}
   - {fileID: 1340145304}
   - {fileID: 948160436}
+  - {fileID: 61762025}
