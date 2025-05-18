@@ -9,6 +9,10 @@ public class Mouvement : NetworkBehaviour
     private bool isGrounded = false;
     private bool facingRight = true;
     private bool crouch = false;
+	private float attackCooldown = 1f;
+	private float nextAttackTime = 0f;
+	private string[] attackTriggers = { "Attack", "Attack2" };
+
 
     [Command]
     private void CmdSetAnimationState(string paramName, bool value)
@@ -80,11 +84,36 @@ public class Mouvement : NetworkBehaviour
 
     void Update()
     {
+		if (!isLocalPlayer) return;
+
+		Healthmanager health = GetComponent<Healthmanager>();
+		if (health != null && health.isDead) return;
+
         if (!isLocalPlayer) return;
-        
+
+		if (Input.GetKeyDown(KeyCode.Mouse0) && Time.time >= nextAttackTime)
+    	{
+        	nextAttackTime = Time.time + attackCooldown;
+        	CmdAttack();
+    	}
+
         PlayerMovement();
         UpdateJumpAnimation();
     }
+
+	[Command]
+	private void CmdAttack()
+	{
+    	int index = Random.Range(0, attackTriggers.Length);
+    	string attackToPlay = attackTriggers[index];
+    	RpcAttack(attackToPlay);
+	}
+
+	[ClientRpc]
+	private void RpcAttack(string attackTrigger)
+	{
+    	animator.animator.SetTrigger(attackTrigger);
+	}
 
     private void PlayerMovement()
     {

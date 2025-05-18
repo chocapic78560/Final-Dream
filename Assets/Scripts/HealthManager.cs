@@ -11,9 +11,13 @@ public class Healthmanager : MonoBehaviour
     private bool isInWater = false;
     private float waterDamageRate = 1f;
     private float nextWaterDamageTime = 0f;
+    private Animator animator;
+    public bool isDead = false;
+
 
     void Start()
     {
+        animator = GetComponentInChildren<Animator>();
         GameObject bar = GameObject.FindGameObjectWithTag("HealthBar");
         if (bar != null)
         {
@@ -32,7 +36,7 @@ public class Healthmanager : MonoBehaviour
         {
             Die();
         }
-/*
+
         if (Input.GetKeyDown(KeyCode.Return))
         {
             TakeDamage(20);
@@ -42,7 +46,7 @@ public class Healthmanager : MonoBehaviour
         {
             Heal(5);
         }
-*/
+
         if (isInWater && Time.time >= nextWaterDamageTime)
         {
             TakeDamage(5);
@@ -52,7 +56,12 @@ public class Healthmanager : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        if (healthAmount <= 0) return;
+        if (healthAmount <= 0 && !isDead)
+        {
+            isDead = true;
+            Die();
+        }
+
 
         healthAmount -= damage;
         healthAmount = Mathf.Clamp(healthAmount, 0, 100);
@@ -70,13 +79,29 @@ public class Healthmanager : MonoBehaviour
 
     void Die()
     {
+        if (isDead) return;
+        isDead = true;
+    
+        if (animator != null)
+        {
+            animator.SetTrigger("Die");
+        }
+    
         Debug.Log("Le personnage est mort !");
+        
+        Invoke(nameof(DisableAndRespawn), 1f);
+    }
+
+    
+    void DisableAndRespawn()
+    {
         gameObject.SetActive(false);
-        Invoke("Respawn", 2f);
+        Invoke(nameof(Respawn), 2f);
     }
 
     void Respawn()
     {
+        isDead = false;
         gameObject.SetActive(true);
         transform.position = respawnPosition;
         healthAmount = 100f;
