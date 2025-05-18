@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 8102589577694955982}
   - component: {fileID: 7787534879370670657}
   - component: {fileID: 1241588795364486590}
+  - component: {fileID: -3440283273135875476}
+  - component: {fileID: 5633404010709332932}
   m_Layer: 0
   m_Name: enemy (2)
   m_TagString: Untagged
@@ -151,7 +153,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -162,7 +164,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!95 &1241588795364486590
 Animator:
   serializedVersion: 7
@@ -185,3 +187,41 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-3440283273135875476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1839035132789677264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 3487825686
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
+--- !u!114 &5633404010709332932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1839035132789677264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79165b4cdb4a4f24583595fd3ba13fd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  player: {fileID: 0}
+  speed: 3
+  pathfinding: {fileID: 0}
+  grid: {fileID: 0}
+  pathUpdateInterval: 0.5
+  trackDistance: 20
