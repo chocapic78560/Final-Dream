@@ -1,12 +1,15 @@
+using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
-public class Ennemyground : MonoBehaviour
+public class Ennemyground : NetworkBehaviour
 {
     public float speed = 2f;
     public float attackRange = 1.5f;
     public float attackCooldown = 1.5f;
 
     private Transform player;
+    private List<Transform> players = new List<Transform>();
     private Animator animator;
     private Rigidbody2D rb;
 
@@ -14,23 +17,58 @@ public class Ennemyground : MonoBehaviour
     private Vector2 moveDirection = Vector2.zero;
     private bool shouldMove = false;
 
+    void OnEnable()
+    {
+        PlayerController.OnPlayerSpawned += OnPlayerSpawned;
+    }
+
+    void OnDisable()
+    {
+        PlayerController.OnPlayerSpawned -= OnPlayerSpawned;
+    }
+    void OnPlayerSpawned(Transform p)
+    {
+        players.Add(p);
+    }
+
+    void SelectClosestPlayer()
+    {
+        if (players.Count == 1)
+        {
+            player = players[0];
+        }
+        else
+        {
+            foreach (Transform p in players)
+            {
+                if (Vector2.Distance(transform.position, p.position) <
+                    Vector2.Distance(transform.position, player.position))
+                {
+                    player = p;
+                }
+            }
+        }
+    }
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player")?.transform;
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
     {
+        if (!isServer)
+        {
+            return;
+        }
+        
         if (player == null)
         {
-            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-            if (playerObj != null)
+            SelectClosestPlayer();
+            if (player == null)
             {
-                player = playerObj.transform;
+                return;
             }
-            return;
         }
 
         float distance = Vector2.Distance(transform.position, player.position);
@@ -47,9 +85,11 @@ public class Ennemyground : MonoBehaviour
 
             // Flip
             if (moveDirection.x > 0)
-                transform.localScale = new Vector3(1, 1, 1);
-            else
                 transform.localScale = new Vector3(-1, 1, 1);
+            else
+                transform.localScale = new Vector3(1, 1, 1);
+            
+            transform.Translate(moveDirection * (speed * Time.deltaTime));
         }
         else
         {
@@ -63,14 +103,6 @@ public class Ennemyground : MonoBehaviour
                 animator.SetTrigger("Attack");
                 lastAttackTime = Time.time;
             }
-        }
-    }
-
-    void FixedUpdate()
-    {
-        if (shouldMove)
-        {
-            rb.MovePosition(rb.position + moveDirection * speed * Time.fixedDeltaTime);
         }
     }
 }

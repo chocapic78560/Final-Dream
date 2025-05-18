@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 530243959582615922}
   - component: {fileID: 3806835067387979940}
   - component: {fileID: 5123238663857504986}
+  - component: {fileID: -6982151790269829123}
   m_Layer: 0
   m_Name: enemy (1)
   m_TagString: Untagged
@@ -129,7 +130,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.4, y: 0.54}
+    oldSize: {x: 1.25, y: 1.6875}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -198,6 +199,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 239d21565197d2f4e93cc202917f68cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   speed: 1
   attackRange: 1.5
   attackCooldown: 1.5
+--- !u!114 &-6982151790269829123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8487647490930091089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 2576402789
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0

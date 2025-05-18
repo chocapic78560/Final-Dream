@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      lava-pixel-art-texture-tuile-magma-motif-sans-couture-sprite-8-bits_418367-283_0: 5374237746597392719
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

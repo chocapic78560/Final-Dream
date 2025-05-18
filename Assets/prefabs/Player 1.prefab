@@ -343,3 +343,4 @@ MonoBehaviour:
   healthBar: {fileID: 0}
   healthAmount: 100
   respawnPosition: {x: 0, y: 0, z: 0}
+  isDead: 0
