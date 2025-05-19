@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 3806835067387979940}
   - component: {fileID: 5123238663857504986}
   - component: {fileID: -6982151790269829123}
+  - component: {fileID: 55292754267310020}
   m_Layer: 0
   m_Name: enemy (1)
   m_TagString: Untagged
@@ -205,6 +206,7 @@ MonoBehaviour:
   speed: 1
   attackRange: 1.5
   attackCooldown: 1.5
+  damageAmount: 20
 --- !u!114 &-6982151790269829123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,3 +224,15 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
+--- !u!114 &55292754267310020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8487647490930091089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68b4ac30281f5d94fa242155ed1d328e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

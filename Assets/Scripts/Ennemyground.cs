@@ -115,6 +115,7 @@ public class Ennemyground : NetworkBehaviour
     	EnemyAttackTrigger attackTrigger = GetComponentInChildren<EnemyAttackTrigger>();
     	if (attackTrigger != null)
     	{
+            attackTrigger.DealDamage();
         	attackTrigger.ResetAttack();
     	}
 	}
