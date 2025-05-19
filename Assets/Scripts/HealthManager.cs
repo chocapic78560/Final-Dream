@@ -37,7 +37,7 @@ public class Healthmanager : MonoBehaviour
             Die();
         }
 
-        if (Input.GetKeyDown(KeyCode.Return))
+        /*if (Input.GetKeyDown(KeyCode.Return))
         {
             TakeDamage(20);
         }
@@ -46,7 +46,7 @@ public class Healthmanager : MonoBehaviour
         {
             Heal(5);
         }
-
+*/
         if (isInWater && Time.time >= nextWaterDamageTime)
         {
             TakeDamage(5);

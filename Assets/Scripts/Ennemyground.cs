@@ -1,3 +1,4 @@
+
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
@@ -5,8 +6,8 @@ using UnityEngine;
 public class Ennemyground : NetworkBehaviour
 {
     public float speed = 2f;
-    public float attackRange = 1.5f;
-    public float attackCooldown = 1.5f;
+    public float attackRange = 3f;
+    public float attackCooldown = 0.7f;
 
     private Transform player;
     private List<Transform> players = new List<Transform>();
@@ -16,6 +17,9 @@ public class Ennemyground : NetworkBehaviour
     private float lastAttackTime;
     private Vector2 moveDirection = Vector2.zero;
     private bool shouldMove = false;
+
+	private bool isAttacking = false;
+	public float damageAmount = 20f;
 
     void OnEnable()
     {
@@ -75,15 +79,12 @@ public class Ennemyground : NetworkBehaviour
 
         if (distance > attackRange)
         {
-            // Se déplace vers le joueur
             moveDirection = (player.position - transform.position).normalized;
             shouldMove = true;
 
-            // Animation
             animator.SetBool("isWalking", true);
             animator.ResetTrigger("Attack");
 
-            // Flip
             if (moveDirection.x > 0)
                 transform.localScale = new Vector3(-1, 1, 1);
             else
@@ -104,5 +105,28 @@ public class Ennemyground : NetworkBehaviour
                 lastAttackTime = Time.time;
             }
         }
+    }
+
+	public void AttackHit()
+	{
+    	isAttacking = true;
+    	Debug.Log("Attack started");
+
+    	EnemyAttackTrigger attackTrigger = GetComponentInChildren<EnemyAttackTrigger>();
+    	if (attackTrigger != null)
+    	{
+        	attackTrigger.ResetAttack();
+    	}
+	}
+
+
+	void EndAttack()
+	{
+    	isAttacking = false;
+	}
+
+	public bool IsAttacking()
+    {
+        return isAttacking;
     }
 }

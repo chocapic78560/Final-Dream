@@ -8,6 +8,7 @@ TagManager:
   - ggbg
   - Water
   - HealthBar
+  - EnemyAttack
   layers:
   - Default
   - TransparentFX
