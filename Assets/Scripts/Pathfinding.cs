@@ -83,10 +83,7 @@ public class Pathfinding : MonoBehaviour
     {
         int dstX = Mathf.Abs(nodeA.gridX - nodeB.gridX);
         int dstY = Mathf.Abs(nodeA.gridY - nodeB.gridY);
-
-        if (dstX > dstY)
-            return 14 * dstY + 10 * (dstX - dstY);
-        return 14 * dstX + 10 * (dstY - dstX);
+        return dstX + dstY;
     }
 
     List<Node> GetNeighbours(Node node)

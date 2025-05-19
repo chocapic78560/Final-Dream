@@ -100,7 +100,7 @@ public class Enemy : NetworkBehaviour
             {
                 List<Node> path = pathfinding.FindPath(transform.position, player.position);
 
-                if (path != null)
+                if (path != null && path.Count > 0)
                 {
                     Debug.Log("Path found with " + path.Count + " nodes.");
                     Vector3[] waypoints = SimplifyPath(path);
@@ -116,12 +116,12 @@ public class Enemy : NetworkBehaviour
                 else
                 {
                     Debug.Log("No path found. Waiting...");
-                    yield return new WaitForSeconds(1f);
+                    yield return new WaitForSeconds(0.2f);
                 }
             }
             else
             {
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(0.2f);
             }
         }
     }
@@ -147,7 +147,7 @@ public class Enemy : NetworkBehaviour
     {
         for (int i = 0; i < waypoints.Length; i++)
         {
-            while (Vector3.Distance(transform.position, waypoints[i]) > 0.1f)
+            while (Vector3.Distance(transform.position, waypoints[i]) > 0.5f)
             {
                 transform.position = Vector3.MoveTowards(transform.position, waypoints[i], speed * Time.deltaTime);
                 yield return null;
