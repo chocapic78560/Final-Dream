@@ -115,6 +115,13 @@ public class Healthmanager : MonoBehaviour
             isInWater = true;
             nextWaterDamageTime = Time.time + waterDamageRate;
         }
+
+		if (other.CompareTag("Fall") && !isDead)
+    	{
+        	healthAmount = 0;
+        	healthBar.fillAmount = 0f;
+        	Die();
+    	}
     }
 
     void OnTriggerExit2D(Collider2D other)
