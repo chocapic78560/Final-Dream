@@ -13,6 +13,11 @@ public class Enemy : NetworkBehaviour
     public float pathUpdateInterval = 0.01f;
     public float trackDistance = 0.1f;
     private Animator animator;
+    public float damageAmount = 10f;
+    private bool canDealDamage = true;
+    public float damageCooldown = 1f;
+    private Coroutine attackCoroutine;
+    private GameObject currentTarget;
 
 
     void OnEnable()
@@ -163,12 +168,70 @@ public class Enemy : NetworkBehaviour
     
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!isServer) return;
+        if (!isServer || !canDealDamage) return;
 
-        if (collision.collider.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
             animator.SetTrigger("Attack");
+
+            Healthmanager health = collision.gameObject.GetComponent<Healthmanager>();
+            if (health != null)
+            {
+                health.TakeDamage(damageAmount);
+                StartCoroutine(DamageCooldown());
+            }
+        }
+    }
+    
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!isServer) return;
+
+        if (collision.CompareTag("Player"))
+        {
+            currentTarget = collision.gameObject;
+
+            if (attackCoroutine == null)
+            {
+                attackCoroutine = StartCoroutine(RepeatAttack());
+            }
+        }
+    }
+    
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (!isServer) return;
+
+        if (collision.CompareTag("Player") && collision.gameObject == currentTarget)
+        {
+            StopCoroutine(attackCoroutine);
+            attackCoroutine = null;
+            currentTarget = null;
         }
     }
 
+    IEnumerator RepeatAttack()
+    {
+        while (currentTarget != null)
+        {
+            animator.SetTrigger("Attack");
+
+            Healthmanager health = currentTarget.GetComponent<Healthmanager>();
+            if (health != null)
+            {
+                health.TakeDamage(damageAmount);
+                Debug.Log("Enemy repeatedly dealt damage: " + damageAmount);
+            }
+
+            yield return new WaitForSeconds(damageCooldown);
+        }
+    }
+
+    IEnumerator DamageCooldown()
+    {
+        canDealDamage = false;
+        yield return new WaitForSeconds(damageCooldown);
+        canDealDamage = true;
+    }
+    
 }
