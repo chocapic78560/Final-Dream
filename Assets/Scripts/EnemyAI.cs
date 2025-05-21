@@ -12,6 +12,8 @@ public class Enemy : NetworkBehaviour
     [SerializeField] private Grid grid;
     public float pathUpdateInterval = 0.01f;
     public float trackDistance = 0.1f;
+    private Animator animator;
+
 
     void OnEnable()
     {
@@ -77,6 +79,7 @@ public class Enemy : NetworkBehaviour
         if (!isServer)
             return;
         StartCoroutine(FindPlayer());
+        animator = GetComponent<Animator>();
     }
     
     private void Update() { }
@@ -156,5 +159,16 @@ public class Enemy : NetworkBehaviour
         }
         Debug.Log("Reached the end of the path.");
         yield return null;
+    }
+    
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!isServer) return;
+
+        if (collision.CompareTag("Player"))
+        {
+            Debug.Log("Enemy triggered attack on player.");
+            animator.SetTrigger("Attack");
+        }
     }
 }
