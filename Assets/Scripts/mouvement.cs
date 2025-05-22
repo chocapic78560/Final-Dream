@@ -136,12 +136,12 @@ public class Mouvement : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             crouch = true;
-            animator.animator.SetBool("IsCrouching", true);
+            CmdSetAnimationState("IsCrouching",true);
         }
         if (Input.GetKeyUp(KeyCode.LeftControl))
         {
             crouch = false;
-            animator.animator.SetBool("IsCrouching", false);
+            CmdSetAnimationState("IsCrouching",false);
         }
         
         if (horizontalMove > 0 && !facingRight)
