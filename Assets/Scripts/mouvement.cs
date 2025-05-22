@@ -12,6 +12,11 @@ public class Mouvement : NetworkBehaviour
 	private float attackCooldown = 1f;
 	private float nextAttackTime = 0f;
 	private string[] attackTriggers = { "Attack", "Attack2" };
+	public Transform attackPoint;
+	public float attackRange = 0.5f;
+	public int attackDamage = 25;
+	public LayerMask enemyLayers;
+    
 
 
     [Command]
@@ -113,7 +118,20 @@ public class Mouvement : NetworkBehaviour
 	private void RpcAttack(string attackTrigger)
 	{
     	animator.animator.SetTrigger(attackTrigger);
+
+    	if (!isLocalPlayer) return;
+
+    	Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
+
+    	foreach (Collider2D enemy in hitEnemies)
+    	{
+        	if (enemy.TryGetComponent(out EnemyHealth enemyHealth))
+        	{
+            	enemyHealth.TakeDamage(attackDamage);
+        	}
+    	}
 	}
+
 
     private void PlayerMovement()
     {
