@@ -73,8 +73,8 @@ public class Enemy : NetworkBehaviour
     {
         foreach (Transform p in players)
         {
-            if (Vector2.Distance(networkTransform.transform.position, p.position) <
-                Vector2.Distance(networkTransform.transform.position, player.position))
+            if (Vector2.Distance(transform.position, p.position) <
+                Vector2.Distance(transform.position, player.position))
             {
                 player = p;
             }
@@ -108,9 +108,9 @@ public class Enemy : NetworkBehaviour
         while (true)
         {
             SelectClosestPlayer();
-            if (player != null && Vector2.Distance(networkTransform.transform.position, player.position) <= trackDistance)
+            if (player != null && Vector2.Distance(transform.position, player.position) <= trackDistance)
             {
-                List<Node> path = pathfinding.FindPath(networkTransform.transform.position, player.position);
+                List<Node> path = pathfinding.FindPath(transform.position, player.position);
 
                 if (path != null && path.Count > 0)
                 {
@@ -159,9 +159,9 @@ public class Enemy : NetworkBehaviour
     {
         for (int i = 0; i < waypoints.Length; i++)
         {
-            while (Vector3.Distance(networkTransform.transform.position, waypoints[i]) > 0.5f)
+            while (Vector3.Distance(transform.position, waypoints[i]) > 0.5f)
             {
-                networkTransform.transform.position = Vector3.MoveTowards(networkTransform.transform.position, waypoints[i], speed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, waypoints[i], speed * Time.deltaTime);
                 yield return null;
             }
             Debug.Log("Reached waypoint: " + waypoints[i]);
@@ -176,7 +176,7 @@ public class Enemy : NetworkBehaviour
 
         if (collision.gameObject.CompareTag("Player"))
         {
-            networkAnimator.SetTrigger("Attack");
+            animator.SetTrigger("Attack");
 
             HealthManager health = collision.gameObject.GetComponent<HealthManager>();
             if (health != null)
@@ -189,8 +189,6 @@ public class Enemy : NetworkBehaviour
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!isServer) return;
-
         if (collision.CompareTag("Player"))
         {
             currentTarget = collision.gameObject;
@@ -204,8 +202,6 @@ public class Enemy : NetworkBehaviour
     
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (!isServer) return;
-
         if (collision.CompareTag("Player") && collision.gameObject == currentTarget)
         {
             StopCoroutine(attackCoroutine);
@@ -218,7 +214,7 @@ public class Enemy : NetworkBehaviour
     {
         while (currentTarget != null)
         {
-            networkAnimator.SetTrigger("Attack");
+            animator.SetTrigger("Attack");
 
             HealthManager health = currentTarget.GetComponent<HealthManager>();
             if (health != null)

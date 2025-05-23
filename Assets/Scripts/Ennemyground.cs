@@ -47,8 +47,8 @@ public class Ennemyground : NetworkBehaviour
             player = players[0];
             foreach (Transform p in players)
             {
-                if (Vector2.Distance(networkTransform.transform.position, p.position) <
-                    Vector2.Distance(networkTransform.transform.position, player.position))
+                if (Vector2.Distance(transform.position, p.position) <
+                    Vector2.Distance(transform.position, player.position))
                 {
                     player = p;
                 }
@@ -69,7 +69,7 @@ public class Ennemyground : NetworkBehaviour
         {
             return;
         }
-        SelectClosestPlayer();
+        Invoke("SelectClosestPlayer", 1f);
         if (player == null)
         {
             return;
@@ -80,33 +80,33 @@ public class Ennemyground : NetworkBehaviour
 
     void GoTowardsPlayer()
     {
-        float distance = Vector2.Distance(networkTransform.transform.position, player.position);
+        float distance = Vector2.Distance(transform.position, player.position);
 
         if (distance > attackRange)
         {
-            moveDirection = (player.position - networkTransform.transform.position).normalized;
+            moveDirection = (player.position - transform.position).normalized;
             shouldMove = true;
 
-            networkAnimator.animator.SetBool("isWalking", true);
-            networkAnimator.animator.ResetTrigger("Attack");
+            animator.SetBool("isWalking", true);
+            animator.ResetTrigger("Attack");
 
             if (moveDirection.x > 0)
-                networkTransform.transform.localScale = new Vector3(-1, 1, 1);
+                transform.localScale = new Vector3(-1, 1, 1);
             else
-                networkTransform.transform.localScale = new Vector3(1, 1, 1);
+                transform.localScale = new Vector3(1, 1, 1);
             
-            networkTransform.transform.Translate(moveDirection * (speed * Time.deltaTime));
+            transform.Translate(moveDirection * (speed * Time.deltaTime));
         }
         else
         {
             shouldMove = false;
             moveDirection = Vector2.zero;
 
-            networkAnimator.animator.SetBool("isWalking", false);
+            animator.SetBool("isWalking", false);
 
             if (Time.time >= lastAttackTime + attackCooldown)
             {
-                networkAnimator.animator.SetTrigger("Attack");
+                animator.SetTrigger("Attack");
                 lastAttackTime = Time.time;
             }
         }

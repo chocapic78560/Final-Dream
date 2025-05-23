@@ -53,6 +53,7 @@ GameObject:
   - component: {fileID: 850123105756331127}
   - component: {fileID: 6996833652860068712}
   - component: {fileID: 5606383629107295104}
+  - component: {fileID: -1845153026533171577}
   m_Layer: 0
   m_Name: Player 1
   m_TagString: Player
@@ -418,3 +419,20 @@ MonoBehaviour:
   waterDamageAmount: 5
   isDead: 0
   healthBar: {fileID: 0}
+--- !u!114 &-1845153026533171577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6140082697325147097}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0f4e61f3a37db24c9492f8d01485807, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  anim: {fileID: 9100000, guid: f9ef3a390fc5c8a4cb939a129080e33a, type: 2}
+  sr: {fileID: 490679266176590426, guid: 174295dd7a5504725b6c4d6e49f0f4c4, type: 3}

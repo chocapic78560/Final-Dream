@@ -130,7 +130,6 @@ public class HealthManager : NetworkBehaviour
         if (isDead)
         {
             if (mouvement != null) mouvement.enabled = false;
-            if (boxCollider != null) boxCollider.enabled = false;
             
             // Ne pas désactiver le SpriteRenderer immédiatement pour permettre à l'animation de mort de jouer
             if (rb != null) rb.gravityScale = 0f;
@@ -336,6 +335,17 @@ public class HealthManager : NetworkBehaviour
         {
             CmdSetInWater(true);
         }
+
+        if (other.CompareTag("Fall"))
+        {
+            CmdChangeHealth();
+        }
+    }
+
+    [Command]
+    void CmdChangeHealth()
+    {
+        healthAmount = 0;
     }
 
     void OnTriggerExit2D(Collider2D other)

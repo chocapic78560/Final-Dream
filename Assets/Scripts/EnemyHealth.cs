@@ -38,7 +38,7 @@ public class EnemyHealth : NetworkBehaviour
 
         if (animator != null)
         {
-            networkAnimator.SetTrigger("Die");
+            animator.SetTrigger("Die");
         }
 
         MonoBehaviour[] scripts = GetComponents<MonoBehaviour>();

@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class TeleportTriggerSimple : NetworkBehaviour
 {
+    public GameObject music1;
+    public GameObject music2;
+    
     [Header("Teleport Settings")]
     public Vector3 teleportDestination = new Vector3(0f, 0f, 0f);
     
@@ -17,6 +20,9 @@ public class TeleportTriggerSimple : NetworkBehaviour
         {
             CmdTeleportAllPlayers();
         }
+        
+        music1.SetActive(false);
+        music2.SetActive(true);
     }
     
     [Command(requiresAuthority = false)]
