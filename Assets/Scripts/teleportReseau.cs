@@ -1,9 +1,10 @@
 using Mirror;
 using UnityEngine;
+
 public class TeleportTriggerSimple : NetworkBehaviour
 {
     [Header("Teleport Settings")]
-    public Vector3 teleportOffset = new Vector3(100f, 0f, 0f);
+    public Vector3 teleportDestination = new Vector3(0f, 0f, 0f);
     
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -36,8 +37,7 @@ public class TeleportTriggerSimple : NetworkBehaviour
             NetworkIdentity identity = player.GetComponent<NetworkIdentity>();
             if (identity != null)
             {
-                Vector3 newPos = player.transform.position + teleportOffset;
-                player.transform.position = newPos;
+                player.transform.position = teleportDestination;
             }
         }
     }
