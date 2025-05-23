@@ -13,6 +13,8 @@ public class Enemy : NetworkBehaviour
     public float pathUpdateInterval = 0.01f;
     public float trackDistance = 0.1f;
     private Animator animator;
+    private NetworkAnimator networkAnimator;
+    private NetworkTransformReliable networkTransform;
     public float damageAmount = 10f;
     private bool canDealDamage = true;
     public float damageCooldown = 1f;
@@ -71,8 +73,8 @@ public class Enemy : NetworkBehaviour
     {
         foreach (Transform p in players)
         {
-            if (Vector2.Distance(transform.position, p.position) <
-                Vector2.Distance(transform.position, player.position))
+            if (Vector2.Distance(networkTransform.transform.position, p.position) <
+                Vector2.Distance(networkTransform.transform.position, player.position))
             {
                 player = p;
             }
@@ -83,8 +85,10 @@ public class Enemy : NetworkBehaviour
     {
         if (!isServer)
             return;
-        StartCoroutine(FindPlayer());
         animator = GetComponent<Animator>();
+        networkAnimator = GetComponent<NetworkAnimator>();
+        networkTransform = GetComponent<NetworkTransformReliable>();
+        StartCoroutine(FindPlayer());
     }
     
     private void Update() { }
@@ -104,9 +108,9 @@ public class Enemy : NetworkBehaviour
         while (true)
         {
             SelectClosestPlayer();
-            if (player != null && Vector2.Distance(transform.position, player.position) <= trackDistance)
+            if (player != null && Vector2.Distance(networkTransform.transform.position, player.position) <= trackDistance)
             {
-                List<Node> path = pathfinding.FindPath(transform.position, player.position);
+                List<Node> path = pathfinding.FindPath(networkTransform.transform.position, player.position);
 
                 if (path != null && path.Count > 0)
                 {
@@ -155,9 +159,9 @@ public class Enemy : NetworkBehaviour
     {
         for (int i = 0; i < waypoints.Length; i++)
         {
-            while (Vector3.Distance(transform.position, waypoints[i]) > 0.5f)
+            while (Vector3.Distance(networkTransform.transform.position, waypoints[i]) > 0.5f)
             {
-                transform.position = Vector3.MoveTowards(transform.position, waypoints[i], speed * Time.deltaTime);
+                networkTransform.transform.position = Vector3.MoveTowards(networkTransform.transform.position, waypoints[i], speed * Time.deltaTime);
                 yield return null;
             }
             Debug.Log("Reached waypoint: " + waypoints[i]);
@@ -172,12 +176,12 @@ public class Enemy : NetworkBehaviour
 
         if (collision.gameObject.CompareTag("Player"))
         {
-            animator.SetTrigger("Attack");
+            networkAnimator.SetTrigger("Attack");
 
-            Healthmanager health = collision.gameObject.GetComponent<Healthmanager>();
+            HealthManager health = collision.gameObject.GetComponent<HealthManager>();
             if (health != null)
             {
-                health.TakeDamage(damageAmount);
+                health.CmdTakeDamage(damageAmount);
                 StartCoroutine(DamageCooldown());
             }
         }
@@ -214,12 +218,12 @@ public class Enemy : NetworkBehaviour
     {
         while (currentTarget != null)
         {
-            animator.SetTrigger("Attack");
+            networkAnimator.SetTrigger("Attack");
 
-            Healthmanager health = currentTarget.GetComponent<Healthmanager>();
+            HealthManager health = currentTarget.GetComponent<HealthManager>();
             if (health != null)
             {
-                health.TakeDamage(damageAmount);
+                health.CmdTakeDamage(damageAmount);
                 Debug.Log("Enemy repeatedly dealt damage: " + damageAmount);
             }
 

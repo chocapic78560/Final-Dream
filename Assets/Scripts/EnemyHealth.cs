@@ -1,15 +1,21 @@
+using Mirror;
 using UnityEngine;
 
-public class EnemyHealth : MonoBehaviour
+public class EnemyHealth : NetworkBehaviour
 {
     public int maxHealth = 100;
-    private int currentHealth;
+    
+    [SyncVar]
+    public int currentHealth;
+    
     private bool isDead = false;
 
     private Animator animator;
+    private NetworkAnimator networkAnimator;
 
     void Start()
     {
+        networkAnimator = GetComponent<NetworkAnimator>();
         currentHealth = maxHealth;
         animator = GetComponent<Animator>();
     }
@@ -32,11 +38,8 @@ public class EnemyHealth : MonoBehaviour
 
         if (animator != null)
         {
-            animator.SetTrigger("Die");
+            networkAnimator.SetTrigger("Die");
         }
-
-        Collider2D col = GetComponent<Collider2D>();
-        if (col != null) col.enabled = false;
 
         MonoBehaviour[] scripts = GetComponents<MonoBehaviour>();
         foreach (var script in scripts)

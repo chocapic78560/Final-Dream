@@ -111,6 +111,15 @@ public class Mouvement : NetworkBehaviour
 	{
     	int index = Random.Range(0, attackTriggers.Length);
     	string attackToPlay = attackTriggers[index];
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
+
+        foreach (Collider2D enemy in hitEnemies)
+        {
+            if (enemy.TryGetComponent(out EnemyHealth enemyHealth))
+            {
+                enemyHealth.TakeDamage(attackDamage);
+            }
+        }
     	RpcAttack(attackToPlay);
 	}
 

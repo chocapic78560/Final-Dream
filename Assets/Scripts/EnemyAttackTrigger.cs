@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
-public class EnemyAttackTrigger : MonoBehaviour
+public class EnemyAttackTrigger : NetworkBehaviour
 {
     private Ennemyground enemy;
     private bool hasDealtDamageThisAttack = false;
@@ -38,11 +39,11 @@ public class EnemyAttackTrigger : MonoBehaviour
 
         if (playersInZone.Count > 0 && !hasDealtDamageThisAttack)
         {
-            Healthmanager health = playersInZone.Peek().GetComponent<Healthmanager>();
+            HealthManager health = playersInZone.Peek().GetComponent<HealthManager>();
             if (health != null)
             {
                 Debug.Log("Dégâts infligés !");
-                health.TakeDamage(enemy.damageAmount);
+                health.CmdTakeDamage(enemy.damageAmount);
                 hasDealtDamageThisAttack = true;
             }
         }

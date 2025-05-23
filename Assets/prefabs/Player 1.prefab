@@ -52,6 +52,7 @@ GameObject:
   - component: {fileID: -334865864518298106}
   - component: {fileID: 850123105756331127}
   - component: {fileID: 6996833652860068712}
+  - component: {fileID: 5606383629107295104}
   m_Layer: 0
   m_Name: Player 1
   m_TagString: Player
@@ -374,7 +375,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6140082697325147097}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09e1b7dbd4aa86f41bef7a47cfda4a88, type: 3}
   m_Name: 
@@ -395,3 +396,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 768f85080dd68584099193b3c22f73e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5606383629107295104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6140082697325147097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 634b1fc806fb2174b939058be13b0703, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  healthAmount: 100
+  respawnPosition: {x: 0, y: 0, z: 0}
+  respawnDelay: 3
+  waterDamageRate: 1
+  waterDamageAmount: 5
+  isDead: 0
+  healthBar: {fileID: 0}

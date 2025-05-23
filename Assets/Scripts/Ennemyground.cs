@@ -1,17 +1,20 @@
 
 using System.Collections.Generic;
 using Mirror;
+using Unity.Netcode.Components;
 using UnityEngine;
+using NetworkAnimator = Mirror.NetworkAnimator;
 
 public class Ennemyground : NetworkBehaviour
 {
     public float speed = 2f;
     public float attackRange = 3f;
     public float attackCooldown = 0.7f;
-
+    
     private Transform player;
     private List<Transform> players = new List<Transform>();
     private Animator animator;
+    private NetworkAnimator networkAnimator;
     private Rigidbody2D rb;
 
     private float lastAttackTime;
@@ -20,6 +23,8 @@ public class Ennemyground : NetworkBehaviour
 
 	private bool isAttacking = false;
 	public float damageAmount = 20f;
+    
+    private NetworkTransformReliable networkTransform;
 
     void OnEnable()
     {
@@ -37,16 +42,13 @@ public class Ennemyground : NetworkBehaviour
 
     void SelectClosestPlayer()
     {
-        if (players.Count == 1)
+        if (players.Count >= 1)
         {
             player = players[0];
-        }
-        else
-        {
             foreach (Transform p in players)
             {
-                if (Vector2.Distance(transform.position, p.position) <
-                    Vector2.Distance(transform.position, player.position))
+                if (Vector2.Distance(networkTransform.transform.position, p.position) <
+                    Vector2.Distance(networkTransform.transform.position, player.position))
                 {
                     player = p;
                 }
@@ -55,6 +57,8 @@ public class Ennemyground : NetworkBehaviour
     }
     void Start()
     {
+        networkAnimator = GetComponent<NetworkAnimator>();
+        networkTransform = GetComponent<NetworkTransformReliable>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
     }
@@ -65,43 +69,44 @@ public class Ennemyground : NetworkBehaviour
         {
             return;
         }
-        
+        SelectClosestPlayer();
         if (player == null)
         {
-            SelectClosestPlayer();
-            if (player == null)
-            {
-                return;
-            }
+            return;
         }
+        
+        GoTowardsPlayer();
+    }
 
-        float distance = Vector2.Distance(transform.position, player.position);
+    void GoTowardsPlayer()
+    {
+        float distance = Vector2.Distance(networkTransform.transform.position, player.position);
 
         if (distance > attackRange)
         {
-            moveDirection = (player.position - transform.position).normalized;
+            moveDirection = (player.position - networkTransform.transform.position).normalized;
             shouldMove = true;
 
-            animator.SetBool("isWalking", true);
-            animator.ResetTrigger("Attack");
+            networkAnimator.animator.SetBool("isWalking", true);
+            networkAnimator.animator.ResetTrigger("Attack");
 
             if (moveDirection.x > 0)
-                transform.localScale = new Vector3(-1, 1, 1);
+                networkTransform.transform.localScale = new Vector3(-1, 1, 1);
             else
-                transform.localScale = new Vector3(1, 1, 1);
+                networkTransform.transform.localScale = new Vector3(1, 1, 1);
             
-            transform.Translate(moveDirection * (speed * Time.deltaTime));
+            networkTransform.transform.Translate(moveDirection * (speed * Time.deltaTime));
         }
         else
         {
             shouldMove = false;
             moveDirection = Vector2.zero;
 
-            animator.SetBool("isWalking", false);
+            networkAnimator.animator.SetBool("isWalking", false);
 
             if (Time.time >= lastAttackTime + attackCooldown)
             {
-                animator.SetTrigger("Attack");
+                networkAnimator.animator.SetTrigger("Attack");
                 lastAttackTime = Time.time;
             }
         }

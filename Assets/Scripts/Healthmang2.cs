@@ -229,7 +229,11 @@ public class HealthManager : NetworkBehaviour
         isDead = false;
         RpcChangeHealth();
         
-        transform.position = respawnPosition;
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject player in players)
+        {
+            player.transform.position = respawnPosition;
+        }
         RpcUpdatePosition(respawnPosition);
         
         RpcReactivatePlayer();
@@ -238,7 +242,11 @@ public class HealthManager : NetworkBehaviour
     [ClientRpc]
     public void RpcUpdatePosition(Vector3 newPosition)
     {
-        transform.position = newPosition;
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject player in players)
+        {
+            player.transform.position = respawnPosition;
+        }
     }
     
     [ClientRpc]
@@ -292,6 +300,21 @@ public class HealthManager : NetworkBehaviour
             isDead = true;
             UpdateVisualState();  // Désactive le sprite et autres éléments
         }
+    }
+
+    [Command]
+    public void CmdTakeDamage(float damage)
+    {
+        healthAmount -= damage;
+        healthAmount = Mathf.Clamp(healthAmount, 0, MAX_HEALTH);
+        UpdateHealthBar();
+
+        if (healthAmount <= 0 && !isDead)
+        {
+            isDead = true;
+            UpdateVisualState();  // Désactive le sprite et autres éléments
+        }
+        RpcTakeDamage(damage);
     }
     
     // Méthode pour soigner (exécutée uniquement sur le serveur)
