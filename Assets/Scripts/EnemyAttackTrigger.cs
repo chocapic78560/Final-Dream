@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class EnemyAttackTrigger : NetworkBehaviour
 {
-    private Ennemyground enemy;
+    private EnnemygroundMulti enemy;
     private bool hasDealtDamageThisAttack = false;
     private Queue<GameObject> playersInZone = new Queue<GameObject>();
 
     void Start()
     {
-        enemy = GetComponentInParent<Ennemyground>();
+        enemy = GetComponentInParent<EnnemygroundMulti>();
     }
 
     void OnTriggerEnter2D(Collider2D other)

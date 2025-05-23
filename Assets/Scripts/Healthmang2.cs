@@ -235,6 +235,7 @@ public class HealthManager : NetworkBehaviour
         }
         RpcUpdatePosition(respawnPosition);
         
+        
         RpcReactivatePlayer();
     }
     

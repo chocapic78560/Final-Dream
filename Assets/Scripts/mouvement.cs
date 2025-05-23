@@ -91,7 +91,7 @@ public class Mouvement : NetworkBehaviour
     {
 		if (!isLocalPlayer) return;
 
-		Healthmanager health = GetComponent<Healthmanager>();
+		HealthManager health = GetComponent<HealthManager>();
 		if (health != null && health.isDead) return;
 
         if (!isLocalPlayer) return;
@@ -115,7 +115,7 @@ public class Mouvement : NetworkBehaviour
 
         foreach (Collider2D enemy in hitEnemies)
         {
-            if (enemy.TryGetComponent(out EnemyHealth enemyHealth))
+            if (enemy.TryGetComponent(out EnemyHealthMulti enemyHealth))
             {
                 enemyHealth.TakeDamage(attackDamage);
             }
@@ -134,7 +134,7 @@ public class Mouvement : NetworkBehaviour
 
     	foreach (Collider2D enemy in hitEnemies)
     	{
-        	if (enemy.TryGetComponent(out EnemyHealth enemyHealth))
+        	if (enemy.TryGetComponent(out EnemyHealthMulti enemyHealth))
         	{
             	enemyHealth.TakeDamage(attackDamage);
         	}
