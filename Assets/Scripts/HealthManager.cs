@@ -1,0 +1,134 @@
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class Healthmanager : MonoBehaviour
+{
+    public Image healthBar;
+    public float healthAmount = 100f;
+    public Vector3 respawnPosition;
+
+    private bool isInWater = false;
+    private float waterDamageRate = 1f;
+    private float nextWaterDamageTime = 0f;
+    private Animator animator;
+    public bool isDead = false;
+
+
+    void Start()
+    {
+        animator = GetComponentInChildren<Animator>();
+        GameObject bar = GameObject.FindGameObjectWithTag("HealthBar");
+        if (bar != null)
+        {
+            Transform barTrans = bar.transform.Find("Health");
+            if (barTrans != null)
+            {
+                healthBar = barTrans.GetComponent<Image>();
+            }
+        }
+        healthBar.fillAmount = healthAmount / 100f;
+    }
+
+    void Update()
+    {
+        if (healthAmount <= 0)
+        {
+            Die();
+        }
+
+        /*if (Input.GetKeyDown(KeyCode.Return))
+        {
+            TakeDamage(20);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Heal(5);
+        }
+*/
+        if (isInWater && Time.time >= nextWaterDamageTime)
+        {
+            TakeDamage(5);
+            nextWaterDamageTime = Time.time + waterDamageRate;
+        }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        if (healthAmount <= 0 && !isDead)
+        {
+            isDead = true;
+            Die();
+        }
+
+
+        healthAmount -= damage;
+        healthAmount = Mathf.Clamp(healthAmount, 0, 100);
+        healthBar.fillAmount = healthAmount / 100f;
+    }
+
+    public void Heal(float healingAmount)
+    {
+        if (healthAmount <= 0) return;
+
+        healthAmount += healingAmount;
+        healthAmount = Mathf.Clamp(healthAmount, 0, 100);
+        healthBar.fillAmount = healthAmount / 100f;
+    }
+
+    void Die()
+    {
+        if (isDead) return;
+        isDead = true;
+    
+        if (animator != null)
+        {
+            animator.SetTrigger("Die");
+        }
+    
+        Debug.Log("Le personnage est mort !");
+        
+        Invoke(nameof(DisableAndRespawn), 1f);
+    }
+
+    
+    void DisableAndRespawn()
+    {
+        gameObject.SetActive(false);
+        Invoke(nameof(Respawn), 2f);
+    }
+
+    void Respawn()
+    {
+        isDead = false;
+        gameObject.SetActive(true);
+        transform.position = respawnPosition;
+        healthAmount = 100f;
+        healthBar.fillAmount = healthAmount / 100f;
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Water"))
+        {
+            isInWater = true;
+            nextWaterDamageTime = Time.time + waterDamageRate;
+        }
+
+		if (other.CompareTag("Fall") && !isDead)
+    	{
+        	healthAmount = 0;
+        	healthBar.fillAmount = 0f;
+        	Die();
+    	}
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Water"))
+        {
+            isInWater = false;
+        }
+    }
+}
